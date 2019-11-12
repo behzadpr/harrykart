@@ -1,4 +1,4 @@
-package se.atg.service.harrykart.types;
+package se.atg.service.harrykart.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

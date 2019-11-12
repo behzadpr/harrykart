@@ -1,13 +1,13 @@
-package se.atg.service.harrykart.rest;
+package se.atg.service.harrykart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import se.atg.service.harrykart.types.HarryKart;
-import se.atg.service.harrykart.types.Ranking;
-import se.atg.service.harrykart.types.RankingJson;
+import se.atg.service.harrykart.model.HarryKart;
+import se.atg.service.harrykart.model.Ranking;
+import se.atg.service.harrykart.model.RankingJson;
 
 import java.util.ArrayList;
 import java.util.List;

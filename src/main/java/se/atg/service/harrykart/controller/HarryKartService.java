@@ -1,7 +1,7 @@
-package se.atg.service.harrykart.rest;
+package se.atg.service.harrykart.controller;
 
 import org.springframework.stereotype.Service;
-import se.atg.service.harrykart.types.*;
+import se.atg.service.harrykart.model.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,7 +34,13 @@ public class HarryKartService {
 
     private Integer getParticipantPowerupByLoop(Participant participant, Loop loop) {
         Lane lanes = loop.getLane().stream().filter(lane -> lane.getNumber().equals(participant.getLane())).findAny().orElse(null);
-        return Objects.isNull(lanes) ? null : lanes.getValue();
+        if (Objects.isNull(lanes)){
+            throw new ParticipantNotFoundException();
+        }
+        else
+        {
+            return lanes.getValue();
+        }
     }
 
     private Double calculateParticipantsRecord(Participant participant, Integer powerUp) {

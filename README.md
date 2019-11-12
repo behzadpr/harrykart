@@ -75,7 +75,9 @@ Your task is to compute the top 3 ranking.
 The assignment has to be implemented as a spring boot application with Java 8, here you find the boilerplate application.
 
 The input is provided as an XML document (see examples ```/src/main/resources/input_0.xml``` and ```/src/main/resources/input_1.xml```),
-in case you need it we provide the XML schema for it (```/src/main/resources/input.xsd```)
+in case you need it we provide the public class ProductNotfoundException extends RuntimeException {
+                                      private static final long serialVersionUID = 1L;
+                                   }XML schema for it (```/src/main/resources/input.xsd```)
 
 The output must be a json document of this form:
 ```json
