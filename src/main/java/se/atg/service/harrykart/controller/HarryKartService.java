@@ -1,6 +1,9 @@
 package se.atg.service.harrykart.controller;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
+import se.atg.service.harrykart.exceptions.InvalidValueException;
+import se.atg.service.harrykart.exceptions.ParticipantNotFoundException;
 import se.atg.service.harrykart.model.*;
 
 import java.util.*;
@@ -22,11 +25,14 @@ public class HarryKartService {
     private Map<String, Double> compete(HarryKart harryKart) {
         PowerUps powerUps = harryKart.getPowerUps();
         StartList startList = harryKart.getStartList();
-        return startList.getParticipant().stream().collect(Collectors.toMap(Participant::getName, participant -> calculateLaneRecord(participant, powerUps)));
+        return startList.getParticipant().stream()
+                .collect(Collectors.toMap(Participant::getName, participant -> calculateLaneRecord(participant, powerUps)));
     }
 
     private Double calculateLaneRecord(Participant participant, PowerUps powerUps) {
-        List<Integer> participantPowerUpsByLoop = powerUps.getLoop().stream().map(loop -> getParticipantPowerupByLoop(participant, loop)).collect(Collectors.toList());
+        List<Integer> participantPowerUpsByLoop = powerUps.getLoop().stream()
+                .map(loop -> getParticipantPowerupByLoop(participant, loop)).collect(Collectors.toList());
+
         return participantPowerUpsByLoop.stream().map(powerUp ->
                 calculateParticipantsRecord(participant, powerUp)
         ).collect(Collectors.toList()).stream().reduce(Double::sum).get();
@@ -44,12 +50,18 @@ public class HarryKartService {
     }
 
     private Double calculateParticipantsRecord(Participant participant, Integer powerUp) {
+        validateNullValues(participant.getBaseSpeed() , powerUp);
         Integer currentSpeed = participant.getBaseSpeed() + powerUp;
         participant.setBaseSpeed(currentSpeed);
-        if (currentSpeed > 0) {
-            return (LANE_LENGTH / currentSpeed.doubleValue());
-        } else {
-            return Double.MAX_VALUE;
+        return currentSpeed > 0?
+                LANE_LENGTH / currentSpeed.doubleValue():
+                Double.MAX_VALUE;
+    }
+
+    private void validateNullValues(Integer ... numericValues) {
+        for (Integer numericValue: numericValues) {
+            if(Objects.isNull(numericValue))
+                throw new InvalidValueException();
         }
     }
 }
