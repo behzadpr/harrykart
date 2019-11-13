@@ -13,6 +13,12 @@ public class HarryKartService {
 
     private static final Integer LANE_LENGTH = 1000;
 
+    /**
+     * Collects the top winners of competition by the provided limit
+     * @param harryKart
+     * @param limit
+     * @return
+     */
     Map<String, Double> getTheTopWinners(HarryKart harryKart, Integer limit) {
         return compete(harryKart).entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
@@ -49,6 +55,13 @@ public class HarryKartService {
         }
     }
 
+    /**
+     * Calculates participants' records.
+     * If speed is/becomes zero, biggest double value being considered for the record.
+     * @param participant
+     * @param powerUp
+     * @return
+     */
     private Double calculateParticipantsRecord(Participant participant, Integer powerUp) {
         validateNullValues(participant.getBaseSpeed() , powerUp);
         Integer currentSpeed = participant.getBaseSpeed() + powerUp;

@@ -27,6 +27,11 @@ public class HarryKartController {
         this.harryKartService = harryKartService;
     }
 
+    /**
+     * Launches the competition on the input provided in xml.
+     * @param harryKart
+     * @return Json answer presenting the rankings of top winners
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/play", consumes = "application/xml", produces = "application/json")
     public RankingJson playHarryKart(@RequestBody HarryKart harryKart) {
         harryKart = Objects.isNull(harryKart)? new HarryKart(): harryKart;
@@ -34,6 +39,11 @@ public class HarryKartController {
         return mapToJsonResponse(topWinners);
     }
 
+    /**
+     * Constructs a json object from the competition's result
+     * @param topWinners
+     * @return
+     */
     private RankingJson mapToJsonResponse(Map<String, Double> topWinners) {
         AtomicInteger position = new AtomicInteger(1);
         RankingJson rankingJson = new RankingJson();
