@@ -23,7 +23,7 @@ import java.io.IOException;
 @SpringBootTest
 @WebAppConfiguration
 public abstract class HarryKartAbstractTest {
-    protected MockMvc mockMvc;
+    private MockMvc mockMvc;
     String uri="/api/play";
 
     @Autowired
@@ -32,10 +32,7 @@ public abstract class HarryKartAbstractTest {
     protected void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
-    protected String mapToJson(Object obj) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(obj);
-    }
+
     protected <T> T mapFromJson(String json, Class<T> clazz)
             throws IOException {
 

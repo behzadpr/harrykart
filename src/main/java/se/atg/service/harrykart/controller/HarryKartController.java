@@ -12,12 +12,14 @@ import se.atg.service.harrykart.model.RankingJson;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/api")
 public class HarryKartController {
 
+    private static final int TOP_WINNERS_LIMIT = 3;
     private final HarryKartService harryKartService;
 
     @Autowired
@@ -27,7 +29,8 @@ public class HarryKartController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/play", consumes = "application/xml", produces = "application/json")
     public RankingJson playHarryKart(@RequestBody HarryKart harryKart) {
-        Map<String, Double> topWinners = harryKartService.getTheTopWinners(harryKart, 3);
+        harryKart = Objects.isNull(harryKart)? new HarryKart(): harryKart;
+        Map<String, Double> topWinners = harryKartService.getTheTopWinners(harryKart, TOP_WINNERS_LIMIT);
         return mapToJsonResponse(topWinners);
     }
 

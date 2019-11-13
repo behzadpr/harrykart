@@ -1,6 +1,5 @@
 package se.atg.service.harrykart.controller;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import se.atg.service.harrykart.exceptions.InvalidValueException;
 import se.atg.service.harrykart.exceptions.ParticipantNotFoundException;
@@ -23,14 +22,15 @@ public class HarryKartService {
     }
 
     private Map<String, Double> compete(HarryKart harryKart) {
-        PowerUps powerUps = harryKart.getPowerUps();
-        StartList startList = harryKart.getStartList();
+        PowerUps powerUps = harryKart.getPowerUps()==null? new PowerUps() :harryKart.getPowerUps();
+        StartList startList = harryKart.getStartList()==null? new StartList() : harryKart.getStartList();
         return startList.getParticipant().stream()
                 .collect(Collectors.toMap(Participant::getName, participant -> calculateLaneRecord(participant, powerUps)));
     }
 
     private Double calculateLaneRecord(Participant participant, PowerUps powerUps) {
-        List<Integer> participantPowerUpsByLoop = powerUps.getLoop().stream()
+        List<Loop> loops = powerUps.getLoop()==null? new ArrayList<>() :powerUps.getLoop();
+        List<Integer> participantPowerUpsByLoop = loops.stream()
                 .map(loop -> getParticipantPowerupByLoop(participant, loop)).collect(Collectors.toList());
 
         return participantPowerUpsByLoop.stream().map(powerUp ->
